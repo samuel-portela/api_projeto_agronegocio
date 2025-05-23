@@ -29,7 +29,7 @@ class UsuariosController{
 
           if (isPassword){
 
-            let token = jwt.sign({email: user.values.email, senha: user.values.senha, telefone: user.values.telefone},process.env.SECRET,{expiresIn: 600})
+            let token = jwt.sign({id: user.values.id, email: user.values.email, senha: user.values.senha, telefone: user.values.telefone},process.env.SECRET,{expiresIn: 600})
             res.status(200).json({sucess: isPassword, token: token})
 
           }else{
@@ -245,6 +245,11 @@ class UsuariosController{
     async create(req,res){
         let {nome, email, telefone, senha} = req.body;
         let salt = bcrypt.genSaltSync(10);
+        telefone = telefone.replace(/\D/g, '');
+
+        if (!telefone.startsWith('+')) {
+          telefone = '+' + telefone;
+        }
 
         let result = await Usuarios.create(nome, email, telefone , bcrypt.hashSync(senha,salt));
 
