@@ -17,14 +17,6 @@ class DadosPlantacaoController{
         : res.status(404).json({sucess: false, message: result.err})
     }
 
-    async findAll(req,res){
-        let dadosUsuario = await DadosPlantacao.findAll();
-
-        dadosUsuario.status
-        ? res.status(200).json({sucess: true, values: dadosUsuario.values})
-        : res.status(404).json({sucess: false, message: dadosUsuario.err})
-    }
-
     async findById(req,res){
         if(isNaN(req.params.id) || !req.params.id){
             return res.status(404).json({
@@ -32,7 +24,10 @@ class DadosPlantacaoController{
             });
         }
 
-        let dadosUsuario = await DadosPlantacao.findById(req.params.id);
+        const decoded = jwt.verify(req.params.id, process.env.SECRET);
+        const usuario_id = decoded.id;
+
+        let dadosUsuario = await DadosPlantacao.findById(usuario_id);
 
         if (dadosUsuario.status == undefined){
             res.status(406).json({sucess: false, message:"Não encontrado"});
