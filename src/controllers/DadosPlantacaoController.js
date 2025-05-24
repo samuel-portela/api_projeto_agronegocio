@@ -1,10 +1,14 @@
 const DadosPlantacao = require('../models/DadosPlantacao');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
 class DadosPlantacaoController{
 
     async create(req,res){
         let {nome, tipo_plantacao, token} = req.body;
+
+        const decoded = jwt.verify(token, process.env.SECRET);
+        const usuario_id = decoded.id;
 
         let result = await DadosPlantacao.create(nome, tipo_plantacao, usuario_id);
 

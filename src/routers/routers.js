@@ -14,6 +14,6 @@ router.delete('/user/:id',Auth,UsuariosController.remove);
 router.put('/user/:id',Auth, UsuariosController.editUser);
 router.post('/login', UsuariosController.login);
 
-router.get('/dados-preenchidos/:id',DadosPlantacaoController.findById);
+router.post('/preencher-dados',DadosPlantacaoController.create);
 
 module.exports = router;
