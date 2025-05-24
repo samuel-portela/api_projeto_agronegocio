@@ -39,6 +39,34 @@ class DadosPlantacaoController{
         
     }
 
+    async findByToken(req, res) {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
+        if (!token) {
+            return res.status(401).json({ message: 'Token não informado' });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET);
+            const usuario_id = decoded.id;
+
+            let dadosUsuario = await DadosPlantacao.findById(usuario_id);
+
+            if (!dadosUsuario || dadosUsuario.status == undefined) {
+            return res.status(406).json({ success: false, message: "Não encontrado" });
+            }
+
+            if (!dadosUsuario.status) {
+            return res.status(404).json({ success: false, message: dadosUsuario.err });
+            }
+
+            return res.status(200).json({ success: true, message: dadosUsuario.values });
+        } catch (err) {
+            return res.status(401).json({ message: 'Token inválido' });
+        }
+    }
+
     async editUser(req, res){
         let id = req.params.id
         

@@ -15,6 +15,6 @@ router.put('/user/:id',Auth, UsuariosController.editUser);
 router.post('/login', UsuariosController.login);
 
 router.post('/preencher-dados',DadosPlantacaoController.create);
-router.get('/buscar-dados/:id',DadosPlantacaoController.findById);
+router.get('/buscar-dados',DadosPlantacaoController.findByToken);
 
 module.exports = router;
