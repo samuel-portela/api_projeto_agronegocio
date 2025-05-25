@@ -40,6 +40,12 @@ class UsuariosController{
 
     async recuperarSenha(req, res) {
         const { email, telefone } = req.body;
+
+        telefone = telefone.replace(/\D/g, '');
+
+        if (!telefone.startsWith('+')) {
+          telefone = '+' + telefone;
+        }
     
         try {
           const user = await Usuarios.findByEmail(email);
