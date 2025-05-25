@@ -39,7 +39,7 @@ class UsuariosController{
     }
 
     async recuperarSenha(req, res) {
-        const { email, telefone } = req.body;
+        let { email, telefone } = req.body;
 
         telefone = telefone.replace(/\D/g, '');
 
