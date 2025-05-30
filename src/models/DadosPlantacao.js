@@ -18,7 +18,7 @@ class DadosPlantacao{
 
     async findById(id){
         try {
-            let user = await knex.select(['nome','tipo_plantacao','usuario_id']).where({id: id}).table('dados_plantacao');
+            let user = await knex.select(['nome','tipo_plantacao','usuario_id']).where({usuario_id: id}).table('dados_plantacao');
             return user.length > 0 ? {status: true, values: user } : {status: undefined, message: 'Usuário Não existe!'}
         } catch (err) {
             return {status: false, err: err}
